@@ -1,16 +1,36 @@
+import NavBar from "../components/NavBar";
 import { useEffect, useState } from "react";
 
 function Actors() {
+  const [actors, setActors] = useState([]);
+
+  useEffect(() => {
+    // Fetch actor data
+    fetch("http://localhost:3000/actors")
+      .then((response) => response.json())
+      .then((data) => setActors(data));
+  }, []);
+
   return (
     <>
       <header>
-        {/* What component should go here? */}
+        <NavBar />
       </header>
       <main>
-        {/* Actor info here! */}
+        <h1>Actors Page</h1>
+        {actors.map((actor) => (
+          <article key={actor.name}>
+            <h2>{actor.name}</h2>
+            <ul>
+              {actor.movies.map((movie, index) => (
+                <li key={index}>{movie}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
       </main>
     </>
   );
-};
+}
 
 export default Actors;
